@@ -50,7 +50,9 @@ class BingBackground():
 
     def get_list_of_urls(self, start=0, end=7):
 
-        
+        assert start <= end, "first number <= last number is allowed"
+        # n= (end - start)+1
+        # return self.get_image_url(0, n)
         url_list = []
         for i in range(start, end+1):
             self.day=i

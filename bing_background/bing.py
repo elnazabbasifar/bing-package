@@ -3,7 +3,7 @@ import sys
 import requests 
 import datetime
 
-class BingBackground():
+class Bing():
     """Outer Class"""
 
     def __init__(self, idx=0):

@@ -9,6 +9,7 @@ class BingBackground():
     def __init__(self, idx=0):
 
         self.day = idx
+        self.number_of_images = 1
         # instantiating the ImageFile class (Inner class)
         self.image = self.Image()
         
@@ -16,7 +17,7 @@ class BingBackground():
         try:
             # idx parameter determines where to start from: 0 is default as the current day
             response = requests.get("https://www.bing.com/HPImageArchive.aspx?format=js&" \
-                "idx=%s&n=1&mkt=en-US" % str(self.day))
+                "idx=%s&n=%s&mkt=en-US" % (str(self.day), str(self.number_of_images)))
 
         except HTTPError as http_err:
             print('HTTP error occurred: {}'.format(http_err))
@@ -34,12 +35,17 @@ class BingBackground():
         Method to get the full url of a Bing’s background for a given day(idx)
         """
         json_data = self.__request_api()
-
+        n = self.number_of_images
         # Form the URL for the image
         image_data = json_data['images']
-        # image_date = image_data[0]["startdate"]
-        image_url = image_data[0]["url"].split("&")[0]
-        full_url = "https://www.bing.com" + image_url
+        
+        urls_list = []
+        for i in range(self.number_of_images):
+            image_url = image_data[i]["url"].split("&")[i]
+            full_url = "https://www.bing.com" + image_url
+            urls_list.append(full_url)
+        # Check the number of fetched urls
+        if len(urls_list) > 1: return urls_list
 
         if is_a_background:   
             
@@ -51,14 +57,10 @@ class BingBackground():
     def get_list_of_urls(self, start=0, end=7):
 
         assert start <= end, "first number <= last number is allowed"
-        # n= (end - start)+1
-        # return self.get_image_url(0, n)
-        url_list = []
-        for i in range(start, end+1):
-            self.day=i
-            url_list.append(self.get_image_url(0))
-
-        return url_list
+        self.number_of_images = (end - start)+1
+        self.day= start
+        
+        return self.get_image_url(0)
 
     def __download_image(self, url):
 

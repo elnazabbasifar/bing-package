@@ -149,7 +149,7 @@ def main():
             # if not condition, raise an error
             assert 0< user_day <=7, "Only numbers between 1 and 7 as previous days are allowed!"
             
-        BingBackground(user_day).get_image_url()
+        Bing(user_day).get_image_url()
 
 
 if __name__ == "__main__":

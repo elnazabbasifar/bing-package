@@ -41,7 +41,7 @@ class Bing():
         
         urls_list = []
         for i in range(self.number_of_images):
-            image_url = image_data[i]["url"].split("&")[i]
+            image_url = image_data[i]["url"].split("&")[0]
             full_url = "https://www.bing.com" + image_url
             urls_list.append(full_url)
         # Check the number of fetched urls

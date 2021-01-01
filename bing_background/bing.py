@@ -39,13 +39,20 @@ class Bing():
         # Form the URL for the image
         image_data = json_data['images']
         
-        urls_list = []
+        info_list = []
         for i in range(self.number_of_images):
             image_url = image_data[i]["url"].split("&")[0]
             full_url = "https://www.bing.com" + image_url
-            urls_list.append(full_url)
+
+            detail_dict = {
+                "url" : full_url,
+                "title" : image_data[i]["title"],
+                "copyright" : image_data[i]["copyright"]
+            }
+            info_list.append(detail_dict)
+
         # Check the number of fetched urls
-        if len(urls_list) > 1: return urls_list
+        if len(info_list) > 1: return info_list
 
         if is_a_background:   
             
